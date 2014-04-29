@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="../reset.css">
+</head>
+<body>
+
+  <style type="text/css">
+    body {
+      background-color: rgb(242, 242, 242);
+    }
+
+    .artboard {
+      width: 900px;
+      height: 600px;
+      background-color: white;
+      border: 1px solid #ccc;
+      margin: 100px auto;
+      box-shadow: 0 1px 5px #999;
+      position: relative;
+    }
+
+    .bar {
+      fill: #DDDDDD;
+    }
+
+    .bar:hover {
+      fill: #D4CF01;
+      /* Rectangle 21: */
+    }
+
+  </style>
+
+  <div class="artboard">
+    <h1>TOTAL FANS</h1>
+    <div class="number">53,948</div>
+    <div class="chart"></div>
+  </div>
+
+  <script type="text/javascript" src='../lib/jquery.js'></script>
+  <script type="text/javascript" src='../lib/d3.min.js'></script>
+
+  <script type="text/javascript">
+
+    var dataset = [120, 170, 120, 130, 170, 110, 120, 140, 110, 200, 140, 160, 140, 200, 120, 130, 170, 110, 120, 140, 110, 200, 200, 170, 140, 170, 120, 130, 170, 110, 120, 140, 110, 200];
+
+    var dataset2 = [24, 38, 30, 21, 24, 80, 11, 25, 47, 53, 45, 1, 10, 35, 28, 62, 33, 78, 2, 31, 14, 92, 56, 23, 0, 52, 42, 23, 30, 55, 74, 30, 86, 20];
+
+    var svg = d3.select('.chart').append('svg')
+      .attr('width', 836).attr('height', 250);
+
+    var bars = svg.append('g').selectAll('.bar')
+            .data(dataset).enter().append('rect')
+              .attr('class', 'bar')
+              .attr('x', function (d, i) {
+                return 20 + 24*i
+              })
+              .attr('y', function (d) {
+                return 200 - d;
+              })
+              .attr('width', 20)
+              .attr('height', function (d) {
+                return d;
+              })
+
+    var bars2 = svg.append('g')
+            // .attr('transform', 'translate(0, 204)')
+            .selectAll('.bar')
+            .data(dataset2).enter().append('rect')
+              .attr('class', 'bar')
+              .attr('x', function (d, i) {
+                return 20 + 24*i
+              })
+              .attr('y', function (d) {
+                return 204;
+              })
+              .attr('width', 20)
+              .attr('height', function (d) {
+                return d;
+              });
+
+    function updateTick(argument) {
+      // body...
+    }
+
+    bars.on('mouseover', function (value, index) {
+      var data = { value: value, index: index }
+      updateTick(data)
+    })
+
+  </script>
+</body>
+</html>
