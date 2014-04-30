@@ -80,14 +80,66 @@
                 return d;
               });
 
-    function updateTick(argument) {
-      // body...
+    function updateToolTip(d) {
+      var tooltip = d3.select('.chart').selectAll('.tooltip')
+        .data(d, function (d) {
+          return d.key;
+        })
+
+      var toolTipEnter = tooltip.enter().append('g')
+
+      toolTipEnter
+        .append('circle')
+          .attr('cx', function (d) {
+            return d.x;
+          })
+          .attr('cy', function (d) {
+            return d.y;
+          })
+          .attr('r', function (d) {
+            return d.y;
+          })
+
+      toolTipEnter
+        .append('line')
+          .attr('x1', function (d) {
+            return d.x;
+          })
+          .attr('y1', function (d) {
+            return d.y;
+          })
+          .attr('x2', function (d) {
+            return d.x + 30;
+          })
+          .attr('y2', function (d) {
+            return d.y - 30;
+          })
+
+      toolTipEnter
+        .append('line')
+          .attr('x1', function (d) {
+            return d.x + 30;
+          })
+          .attr('y1', function (d) {
+            return d.y - 30;
+          })
+          .attr('x2', function (d) {
+            return d.x + 60;
+          })
+          .attr('y2', function (d) {
+            return d.y - 30;
+          })
+
+      tooltip.exit().remove();
+    }
+
+    function getToolTipData (value, index) {
+      return [{ key: index + ':' + 'value', x: (20 + 4) * index, y: (200 - value) + 5 }]
     }
 
     bars.on('mouseover', function (value, index) {
-      var data = { value: value, index: index }
-      updateTick(data)
-    })
+      updateToolTip(getToolTipData(value, index));
+    });
 
   </script>
 </body>
