@@ -80,8 +80,8 @@
                 return d;
               });
 
-    function updateToolTip(d) {
-      var tooltip = d3.select('.chart').selectAll('.tooltip')
+    function updateToolTip(svg, d) {
+      var tooltip = svg.selectAll('.tooltip')
         .data(d, function (d) {
           return d.key;
         })
@@ -89,6 +89,7 @@
       var toolTipEnter = tooltip.enter().append('g')
 
       toolTipEnter
+        .attr('class', 'tooltip')
         .append('circle')
           .attr('cx', function (d) {
             return d.x;
@@ -97,7 +98,7 @@
             return d.y;
           })
           .attr('r', function (d) {
-            return d.y;
+            return 3;
           })
 
       toolTipEnter
@@ -114,6 +115,7 @@
           .attr('y2', function (d) {
             return d.y - 30;
           })
+          .style('stroke', 1)
 
       toolTipEnter
         .append('line')
@@ -124,21 +126,22 @@
             return d.y - 30;
           })
           .attr('x2', function (d) {
-            return d.x + 60;
+            return d.x + 30 + 30 * 1.4;
           })
           .attr('y2', function (d) {
             return d.y - 30;
           })
+          .style('stroke', 1)
 
       tooltip.exit().remove();
     }
 
     function getToolTipData (value, index) {
-      return [{ key: index + ':' + 'value', x: (20 + 4) * index, y: (200 - value) + 5 }]
+      return [{ key: index + ':' + value, x: (20 + 24 * index) + 10, y: (200 - value) + 5 + 6 }]
     }
 
     bars.on('mouseover', function (value, index) {
-      updateToolTip(getToolTipData(value, index));
+      updateToolTip(svg, getToolTipData(value, index));
     });
 
   </script>
