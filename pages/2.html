@@ -54,7 +54,27 @@
     }
 
     .chart svg {
-      margin: 100px 25px;
+      margin: 50px 25px 100px 25px;
+    }
+
+    .text {
+      font-family: Helvetica-Bold;
+      font-size: 14px;
+      fill: #D4CF01;
+      line-height: 17px;
+      /* 279 NEW FANS: */
+    }
+
+    .date {
+      font-family: Helvetica;
+      font-size: 14px;
+      fill: #817E84;
+      line-height: 17px;
+      /* 15TH JULY 2013: */
+    }
+
+    line {
+      stroke-width: 2px;
     }
 
   </style>
@@ -70,12 +90,25 @@
 
   <script type="text/javascript">
 
-    var dataset = [120, 170, 120, 130, 170, 110, 120, 140, 110, 200, 140, 160, 140, 200, 120, 130, 170, 110, 120, 140, 110, 200, 200, 170, 140, 170, 120, 130, 170, 110, 120, 140, 110, 200];
+    // Knowledge Test:
+    // margin convention
+    // data binding
+    // enter & exit
+    // tooltip patterns
+    // text-anchor
 
+    var dataset = [120, 170, 120, 130, 170, 110, 120, 140, 110, 200, 140, 160, 140, 200, 120, 130, 170, 110, 120, 140, 110, 200, 200, 170, 140, 170, 120, 130, 170, 110, 120, 140, 110, 200];
     var dataset2 = [24, 38, 30, 21, 24, 80, 11, 25, 47, 53, 45, 1, 10, 35, 28, 62, 33, 78, 2, 31, 14, 92, 56, 23, 0, 52, 42, 23, 30, 55, 74, 30, 86, 20];
+    var margin = { top: 40, left: 0, bottom: 0, right: 0 };
+    var width = 836;
+    var height = 250;
+    var svgWidth = width + margin.left + margin.right;
+    var svgHeight = height + margin.top + margin.bottom;
 
     var svg = d3.select('.chart').append('svg')
-      .attr('width', 836).attr('height', 250);
+      .attr('width', svgWidth).attr('height', svgHeight)
+      .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
     var bars = svg.append('g').selectAll('.bar')
             .data(dataset).enter().append('rect')
@@ -113,6 +146,14 @@
           return d.key;
         })
 
+      function directional(number, index) {
+        return index < 28 ? number : number * -1;
+      }
+
+      function textAnchor(d) {
+        return d.index < 28 ? 'start' : 'end';
+      }
+
       var toolTipEnter = tooltip.enter().append('g')
 
       toolTipEnter
@@ -137,7 +178,7 @@
             return d.y;
           })
           .attr('x2', function (d) {
-            return d.x + 30;
+            return d.x + directional(30, d.index);
           })
           .attr('y2', function (d) {
             return d.y - 30;
@@ -147,30 +188,59 @@
       toolTipEnter
         .append('line')
           .attr('x1', function (d) {
-            return d.x + 30;
+            return d.x + directional(30, d.index);
           })
           .attr('y1', function (d) {
             return d.y - 30;
           })
           .attr('x2', function (d) {
-            return d.x + 30 + 60 * 1.4;
+            return d.x + directional(30 + 150, d.index);
           })
           .attr('y2', function (d) {
             return d.y - 30;
           })
           .style('stroke', 1)
 
+      toolTipEnter
+        .append('text')
+          .attr('class', 'text')
+          .text(function (d) {
+            return d.value + ' NEW FANS';
+          })
+          .attr('x', function (d) {
+            return d.x + directional(30, d.index);
+          })
+          .attr('y', function (d) {
+            return d.y - 35;
+          })
+          .style('text-anchor', textAnchor)
+
+      toolTipEnter
+        .append('text')
+          .attr('class', 'date')
+          .text(function (d, i) {
+            return '15TH JULY 2013';
+          })
+          .attr('x', function (d) {
+            return d.x + directional(30, d.index);
+          })
+          .attr('y', function (d) {
+            return d.y - 15;
+          })
+          .style('text-anchor', textAnchor)
+
       tooltip.exit().remove();
     }
 
     function getToolTipData (value, index) {
-      return [{ key: index + ':' + value, x: (20 + 24 * index) + 10, y: (200 - value) + 5 + 6 }]
+      return [{ key: index + ':' + value, x: (20 + 24 * index) + 10, y: (200 - value) + 5 + 6, value: value, index: index}]
     }
 
     bars.on('mouseover', function (value, index) {
       updateToolTip(svg, getToolTipData(value, index));
     });
-
+    // TODO: generalized tip solution that takes account of when its going over the boundry
+    //
   </script>
 </body>
 </html>
