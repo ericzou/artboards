@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="../reset.css">
+</head>
+<body>
+
+  <style type="text/css">
+
+    body {
+      background-color: rgb(242, 242, 242);
+    }
+
+    .artboard {
+      width: 600px;
+      height: 400px;
+      background-color: white;
+      border: 1px solid #ccc;
+      margin: 100px auto;
+      box-shadow: 0 1px 5px #999;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .artboard svg{
+      /*margin: 81px auto;*/
+    }
+  </style>
+
+  <div class="artboard">
+  </div>
+
+  <script type="text/javascript" src='../lib/jquery.js'></script>
+  <script type="text/javascript" src='../lib/d3.min.js'></script>
+
+  <script type="text/javascript">
+    // Knowledge Test:
+    // select v.s selectAll
+    // transform: translate, and scale
+    // svg stacking:  only dom order matters
+
+    var svg = d3.select('.artboard').append('svg')
+      .attr('width', 335)
+      .attr('height', 238)
+      .append('g')
+
+    var line = d3.svg.line()
+      .x(function (d) {
+        console.log("dx is", d.x)
+        return d.x;
+      })
+      .y(function (d) {
+        console.log("dy is", d.y)
+        return d.y;
+      })
+
+    function datum(x, y) {
+      var x1, y1, x2, y2, x3, y3, x4, y4;
+      x1 = x;
+      y1 = y;
+      x2 = x1 + 67;
+      y2 = y;
+      x4 = x2;
+      y4 = y2 + 238;
+      x3 = x4 + 67;
+      y3 = y4;
+      return [ {x: x1, y: y1}, {x: x2, y: y2}, {x: x3, y: y3}, {x: x4, y: y4} ];
+    }
+
+    svg.datum(datum(0, 0))
+        .append('path')
+          .attr('d', line)
+          .style('fill', '#808080')
+          .attr('transform', 'translate(201) scale(-1, 1)') // 67 * 3
+
+    svg.datum(datum(0, 0))
+        .append('path')
+          .attr('d', line)
+          .style('fill', '#22CBB3')
+          .attr('transform', 'translate(335) scale(-1, 1)') // 67 * 5
+
+    svg.datum(datum(0, 0))
+        .append('path')
+          .attr('d', line)
+          .style('fill', '#22CBB3');
+
+    svg.datum(datum(0, 0))
+        .append('path')
+          .attr('d', line)
+          .style('fill', '#B3B3B3')
+          .attr('transform', 'translate(134)') // 67 * 2
+
+  </script>
+</body>
+</html>
