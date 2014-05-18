@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="../reset.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+  <style type="text/css">
+
+    body {
+      background-color: rgb(242, 242, 242);
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .artboard {
+      width: 960px;
+      height: 700px;
+      background-color: white;
+      border: 1px solid #ccc;
+      margin: 100px auto;
+      box-shadow: 0 1px 5px #999;
+      position: relative;
+    }
+
+    .stat {
+      display: flex;
+      width: 900px;
+      border: 1px solid #D0D7E0;
+      margin: 46px auto;
+      height: 224px;
+    }
+
+    .stat-1, .stat-2, .stat-3 {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-2 {
+      border-left: 1px solid #D0D7E0;
+      border-right: 1px solid #D0D7E0;
+    }
+
+    .stat-1-1, .stat-3-1, .stat-2-1, .stat-2-2{
+      border-bottom: 1px solid #D0D7E0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #E5EBEF;
+    }
+
+    .stat-1-1, .stat-3-1 {
+      height: 148px;
+    }
+
+    .stat-2-1, .stat-2-2{
+      height: 111px;
+    }
+
+    .stat-1-2 {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .stat-1-2-1, .stat-1-2-2, .stat-1-2-3,
+    .stat-3-2-3, .stat-3-2-2, .stat-3-2-1{
+      width: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 74px;
+    }
+
+    .stat-2-2 {
+      border-top: 1px solid #D0D7E0;
+      border-bottom: none;
+    }
+
+    .stat-2-1 {
+      border-bottom: none;
+    }
+
+    .stat-3-2 {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .stat-1-2-1, .stat-1-2-2, .stat-3-2-2, .stat-3-2-1 {
+      border-right: 1px solid #D0D7E0;
+    }
+
+    .stat-1-1 .number,
+    .stat-2 .number,
+    .stat-3-1 .number {
+      font-family: OpenSans;
+      font-size: 48px;
+      color: #000000;
+      line-height: 65px;
+      /* 1,651: */
+      text-shadow: 0px 2px 1px rgba(255,255,255,0.50);
+    }
+
+
+    .stat-1-1 .description,
+    .stat-2 .description,
+    .stat-3-1 .description {
+      font-family: OpenSans;
+      font-size: 20px;
+      color: #87929C;
+      line-height: 27px;
+      /* Signups: */
+    }
+
+    .stat-1-2 .number,
+    .stat-3-2 .number {
+      font-family: OpenSans;
+      font-size: 20px;
+      color: #000000;
+      line-height: 27px;
+      /* 466: */
+    }
+
+    .stat-1-2 .description,
+    .stat-3-2 .description {
+      font-family: OpenSans;
+      font-size: 18px;
+      color: #7F7F7F;
+      line-height: 24px;
+      /* Direct: */
+    }
+
+
+
+  </style>
+
+  <div class="artboard">
+    <div class="stat">
+      <div class="stat-1">
+        <div class="stat-1-1">
+          <div class="number">1,651</div>
+          <div class="description">Signups</div>
+        </div>
+        <div class="stat-1-2">
+          <div class="stat-1-2-1">
+            <div class="number">466</div>
+            <div class="description">Direct</div>
+          </div>
+          <div class="stat-1-2-2">
+            <div class="number">753</div>
+            <div class="description">Referred</div>
+          </div>
+          <div class="stat-1-2-3">
+            <div class="number">431</div>
+            <div class="description">API</div>
+          </div>
+        </div>
+      </div>
+      <div class="stat-2">
+        <div class="stat-2-1">
+          <div class="number">82</div>
+          <div class="description">Upgrades</div>
+        </div>
+        <div class="stat-2-2">
+          <div class="number">17</div>
+          <div class="description">Downgrades</div>
+        </div>
+      </div>
+      <div class="stat-3">
+        <div class="stat-3-1">
+          <div class="number">$9,890</div>
+          <div class="description">Revenue</div>
+        </div>
+        <div class="stat-3-2">
+          <div class="stat-3-2-1">
+            <div class="number">169</div>
+            <div class="description">Biz Trial</div>
+          </div>
+          <div class="stat-3-2-2">
+            <div class="number">14</div>
+            <div class="description">New Acct</div>
+          </div>
+          <div class="stat-3-2-3">
+            <div class="number">$4,480</div>
+            <div class="description">Biz Rev</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src='../lib/jquery.js'></script>
+  <script type="text/javascript" src='../lib/d3.min.js'></script>
+
+  <script type="text/javascript">
+
+  </script>
+</body>
+</html>
