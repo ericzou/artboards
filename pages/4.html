@@ -138,6 +138,19 @@
       margin: 0 auto;
     }
 
+    svg {
+      shape-rendering: crispEdges;
+    }
+    .tick line {
+     fill: none;
+     stroke: #979797;
+     stroke-width: 1px;
+    }
+
+    .y-scale .domain {
+      fill: none;
+      display: none;
+    }
 
   </style>
 
@@ -205,8 +218,13 @@
   // Knowledge Test
   // flexbox, justify-content/align-items/flex-direction
   // Time Scale: a) d3.time.format b) scale.tickFormat v.s. axis.tickFormat c) multi-scale tick format
-  // Ticks
-  // Tick Format http://bl.ocks.org/mbostock/9764126, SI-prefix(metric prefix)
+  // Ticks size, orientation
+  // Tick Format, SI-prefix(metric prefix)
+  // fill: none
+
+  // Resources
+  // ticks: https://github.com/mbostock/d3/wiki/SVG-Axes
+  // http://bl.ocks.org/mbostock/9764126
 
   var margin = { top: 10, right: 0, bottom: 54, left: 50 };
   var width = 850
@@ -249,13 +267,13 @@
 
   var timeAxis = d3.svg.axis()
     .orient('bottom')
-    // .outerTickSize(9)
+    .tickSize(9, 0)
     .ticks(d3.time.weeks, 1)
     .scale(timeScale);
 
   var yAxis = d3.svg.axis()
     .orient('left')
-    // .innerTickSize(width)
+    .tickSize(-width, 0)
     .ticks(4)
     .tickFormat(d3.format('s'))
     .scale(yScale);
@@ -274,6 +292,7 @@
   svg.append('g')
     .attr('class', 'y-scale')
     .call(yAxis);
+
 
   </script>
 </body>
