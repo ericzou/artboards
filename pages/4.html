@@ -148,9 +148,20 @@
     }
 
     .y-scale .domain {
-      fill: none;
+      fill: none; /* necessary for axis to display right */
       display: none;
     }
+
+    text {
+      font-size: 18px;
+      fill: #7F7F7F;
+      line-height: 24px;
+      /* 156k: */
+    }
+
+    /*.time-scale text {
+      -webkit-transform: rotate(90deg);
+    }*/
 
   </style>
 
@@ -226,7 +237,7 @@
   // ticks: https://github.com/mbostock/d3/wiki/SVG-Axes
   // http://bl.ocks.org/mbostock/9764126
 
-  var margin = { top: 10, right: 0, bottom: 54, left: 50 };
+  var margin = { top: 10, right: 0, bottom: 82, left: 50 };
   var width = 850
   var height = 185;
   var svgWidth = margin.right + margin.left + width;
@@ -276,6 +287,7 @@
     .tickSize(-width, 0)
     .ticks(4)
     .tickFormat(d3.format('s'))
+    .tickPadding(8)
     .scale(yScale);
 
   var svg = d3.select('.chart').append('svg')
@@ -292,6 +304,13 @@
   svg.append('g')
     .attr('class', 'y-scale')
     .call(yAxis);
+
+  // rotate tick mark
+  d3.selectAll('.time-scale text')
+    .style('text-anchor', 'start')
+    .attr('dy', -6)
+    .attr('dx', 14)
+    .attr('transform', 'rotate(90)')
 
 
   </script>
