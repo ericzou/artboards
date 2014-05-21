@@ -236,15 +236,16 @@
   // Resources
   // ticks: https://github.com/mbostock/d3/wiki/SVG-Axes
   // http://bl.ocks.org/mbostock/9764126
+  // tickValue: http://bl.ocks.org/mbostock/2996785
 
-  var margin = { top: 10, right: 0, bottom: 82, left: 50 };
+  var margin = { top: 10, right: 0, bottom: 90, left: 50 };
   var width = 850
   var height = 185;
   var svgWidth = margin.right + margin.left + width;
   var svgHeight = height + margin.bottom;
 
   var formatter = d3.time.format('%m-%d-%Y');
-  var timeTickFormatter = d3.time.format('');
+  var timeTickFormatter = d3.time.format('%_d %B');
   var yTickFormatter = d3.format('s');
 
   var data = [
@@ -253,7 +254,7 @@
     { time: '4-13-2014', value: 152000 },
     { time: '4-20-2014', value: 153000 },
     { time: '4-27-2014', value: 154000 },
-    { time: '5-4-2014', value: 155000 }
+    { time: '5-4-2014', value: 157000 }
   ];
 
   var valueAccessor = function (d) {
@@ -280,13 +281,15 @@
     .orient('bottom')
     .tickSize(9, 0)
     .ticks(d3.time.weeks, 1)
+    .tickValues([ new Date('2014-4-7'), new Date('2014-4-14'), new Date('2014-4-21'), new Date('2014-4-28') ])
+    .tickFormat(timeTickFormatter)
     .scale(timeScale);
 
   var yAxis = d3.svg.axis()
     .orient('left')
     .tickSize(-width, 0)
-    .ticks(4)
     .tickFormat(d3.format('s'))
+    .tickValues([150000, 152000, 154000, 156000])
     .tickPadding(8)
     .scale(yScale);
 
