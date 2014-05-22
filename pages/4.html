@@ -232,6 +232,7 @@
   // Ticks size, orientation
   // Tick Format, SI-prefix(metric prefix)
   // fill: none
+  // Use of time intervals
 
   // Resources
   // ticks: https://github.com/mbostock/d3/wiki/SVG-Axes
@@ -247,6 +248,37 @@
   var formatter = d3.time.format('%m-%d-%Y');
   var timeTickFormatter = d3.time.format('%_d %B');
   var yTickFormatter = d3.format('s');
+  var speed;
+
+  function dates(startDate, endDate, stepsInHours) {
+    var interval = d3.time.hour;
+    var dates = interval.range(startDate, endDate, stepsInHours);
+    return dates;
+  }
+
+  function speed(speeds) {
+    var speeds = speeds
+    return function (index) {
+      return speeds[index]
+    }
+  }
+
+  speed = speed([2, 1, 0.2, -1])
+
+  function randomizedValue (data, index) {
+    var previousValue = data[index-1] && data[index-1].value || 152250;
+    var randomIncrement = Math.ceil(Math.random() * 1000) * speed(index % 7);
+    return previousValue + randomIncrement;
+  }
+
+  function generateData() {
+    var d = dates(new Date('2014-3-31'), new Date('2014-5-5'), 14);
+    var data = []
+    d.forEach(function (date, index) {
+      data.push({ time: date, value: randomizedValue(data, index)})
+    })
+    console.log('data', data);
+  }
 
   var data = [
     { time: '3-30-2014', value: 150000 },
@@ -256,6 +288,8 @@
     { time: '4-27-2014', value: 154000 },
     { time: '5-4-2014', value: 157000 }
   ];
+
+  var data = generateData();
 
   var valueAccessor = function (d) {
     return d.value;
@@ -293,6 +327,14 @@
     .tickPadding(8)
     .scale(yScale);
 
+  var line = d3.svg.line()
+    .x(function (d) {
+      return timeScale(d.time);
+    })
+    .y(function (d) {
+      return yScale(d.value);
+    })
+
   var svg = d3.select('.chart').append('svg')
     .attr('width', svgWidth)
     .attr('height', svgHeight)
@@ -308,12 +350,19 @@
     .attr('class', 'y-scale')
     .call(yAxis);
 
+  svg.append('path')
+    .datum(data)
+    .attr('class', 'line')
+    .attr('d', line);
+
   // rotate tick mark
   d3.selectAll('.time-scale text')
     .style('text-anchor', 'start')
     .attr('dy', -6)
     .attr('dx', 14)
     .attr('transform', 'rotate(90)')
+
+
 
 
   </script>
