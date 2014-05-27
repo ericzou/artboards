@@ -159,6 +159,13 @@
       /* 156k: */
     }
 
+    .line {
+      fill: none;
+      stroke: #3480D7;
+      stroke-width: 2px;
+      shape-rendering: auto; /* for anti aliasing*/
+    }
+
     /*.time-scale text {
       -webkit-transform: rotate(90deg);
     }*/
@@ -233,6 +240,7 @@
   // Tick Format, SI-prefix(metric prefix)
   // fill: none
   // Use of time intervals
+  // interpolate('basis')
 
   // Resources
   // ticks: https://github.com/mbostock/d3/wiki/SVG-Axes
@@ -263,11 +271,16 @@
     }
   }
 
-  speed = speed([2, 1, 0.2, -1])
+  speed = speed([2, 0.5, -1.5, 0, 1])
 
   function randomizedValue (data, index) {
-    var previousValue = data[index-1] && data[index-1].value || 152250;
-    var randomIncrement = Math.ceil(Math.random() * 1000) * speed(index % 7);
+    var previousValue = data[index-1] && data[index-1].value || 150250;
+    var randomIncrement = Math.ceil( Math.random() * 150 * speed(Math.floor(index / 14)));
+    if (isNaN(randomIncrement)) {
+      debugger;
+    }
+
+    console.log("inside", previousValue, randomIncrement, speed(Math.floor(index / 14)))
     return previousValue + randomIncrement;
   }
 
@@ -278,25 +291,28 @@
       data.push({ time: date, value: randomizedValue(data, index)})
     })
     console.log('data', data);
+    return data;
   }
 
-  var data = [
-    { time: '3-30-2014', value: 150000 },
-    { time: '4-6-2014', value: 151000 },
-    { time: '4-13-2014', value: 152000 },
-    { time: '4-20-2014', value: 153000 },
-    { time: '4-27-2014', value: 154000 },
-    { time: '5-4-2014', value: 157000 }
-  ];
+  // var data = [
+  //   { time: '3-30-2014', value: 150000 },
+  //   { time: '4-6-2014', value: 151000 },
+  //   { time: '4-13-2014', value: 152000 },
+  //   { time: '4-20-2014', value: 153000 },
+  //   { time: '4-27-2014', value: 154000 },
+  //   { time: '5-4-2014', value: 157000 }
+  // ];
 
   var data = generateData();
+  data.push({ time: new Date('5-5-2014'), value: 156000});
+  data.unshift({ time: new Date('3-30-2014'), value: 150000});
 
   var valueAccessor = function (d) {
     return d.value;
   }
 
   var dateAccessor = function (d) {
-    return formatter.parse(d.time);
+    return d.time;
   }
 
   var minDate = d3.min(data, dateAccessor);
@@ -304,12 +320,12 @@
 
   var timeScale = d3.time.scale()
     .domain([minDate, maxDate])
-    .range([0, width])
+    .rangeRound([0, width])
 
 
   var yScale = d3.scale.linear()
     .domain([d3.min(data, valueAccessor), d3.max(data, valueAccessor)])
-    .range([height, 0])
+    .rangeRound([height, 0])
 
   var timeAxis = d3.svg.axis()
     .orient('bottom')
@@ -328,6 +344,7 @@
     .scale(yScale);
 
   var line = d3.svg.line()
+    .interpolate('basis')
     .x(function (d) {
       return timeScale(d.time);
     })
